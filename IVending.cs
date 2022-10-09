@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine_Assignment_Lexicon
 {
-    internal interface IVending
+    public interface IVending
     {
         protected void Purchase();
         protected void ShowAll();

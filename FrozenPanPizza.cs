@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine_Assignment_Lexicon
 {
-    internal class FrozenPanPizza : Product
+    public class FrozenPanPizza : Product
     {
         protected string description = "You examine the packaging and it appears to be cheese on top of bread.";
         protected int price = 15;

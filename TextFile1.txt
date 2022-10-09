@@ -1,0 +1,162 @@
+        [Fact]
+        public void Purchase_Test()
+        {
+            VendingMachine vending = new VendingMachine();
+
+            vending.productList.Add(new Drink(1, "Coke", 15, "Soda"));
+            vending.productList.Add(new Food(2, "Tacos", 47, "Dinner"));
+            vending.productList.Add(new Toy(3, "puzzle", 62, 4));
+            vending.Deposit = 200;
+
+            Assert.Equal(vending.productList[0], vending.Purchase(1));
+            Assert.Equal(vending.productList[1], vending.Purchase(2));
+            Assert.Equal(vending.productList[2], vending.Purchase(3));
+        }
+
+        [Fact]
+        public void Purchase_NotEnoghMoney_Test()
+        {
+            VendingMachine vending = new VendingMachine();
+
+            vending.productList.Add(new Drink(1, "Coke", 15, "Soda"));
+            vending.productList.Add(new Food(2, "Tacos", 47, "Dinner"));
+            vending.productList.Add(new Toy(3, "puzzle", 62, 4));
+            vending.Deposit = 10;
+
+            Assert.NotEqual(vending.productList[0], vending.Purchase(1));
+            Assert.NotEqual(vending.productList[1], vending.Purchase(2));
+            Assert.NotEqual(vending.productList[2], vending.Purchase(3));
+        }
+
+        [Fact]
+        public void Purchase_ProductDoesntExist_Test()
+        {
+            VendingMachine vending = new VendingMachine();
+
+            vending.productList.Add(new Drink(1, "Coke", 15, "Soda"));
+            vending.productList.Add(new Food(2, "Tacos", 47, "Dinner"));
+            vending.productList.Add(new Toy(3, "puzzle", 62, 4));
+            vending.Deposit = 99;
+            
+            vending.productList.RemoveAt(2);
+            Assert.NotEqual(vending.productList[1], vending.Purchase(3));
+            Assert.Equal(vending.productList[1], vending.Purchase(2));
+            Assert.Equal(vending.productList[0], vending.Purchase(1));          
+        }
+
+        [Fact]
+        public void InsertMoney_Test()
+        {
+            VendingMachine vending = new VendingMachine();
+            vending.InsertMoney(10);
+            vending.InsertMoney(15);
+            vending.InsertMoney(15);
+            vending.InsertMoney(50);
+            vending.InsertMoney(110);
+            Assert.Equal(60, vending.Deposit);
+        }
+
+
+        [Fact]
+        public void NextProductId_Test()
+        {
+            int expectedId1 = 1;
+            int expectedId2 = 2;
+            int id1;
+            int id2;
+
+            id1 = VendingMachine.NextProductId();
+            id2 = VendingMachine.NextProductId();
+
+            Assert.Equal(expectedId1, id1);
+            Assert.Equal(expectedId2, id2);
+        }
+
+        [Fact]
+        public void ResetProductId_Test()
+        {
+            int expected = 0;
+            VendingMachine.Id = 4;
+
+            VendingMachine.Reset();
+
+            Assert.Equal(expected, VendingMachine.Id);
+        }
+
+        [Fact]
+        public void EndTransaction_Test()
+        {            
+            VendingMachine vending = new VendingMachine();
+            
+            int expectedAmount = 210;
+            int actualAmount = 0;
+            vending.Deposit = 210;
+
+            Dictionary<int, int> actualValues;
+          
+            actualValues = vending.EndTransaction();
+
+            foreach (KeyValuePair<int, int> pair in actualValues)
+            {
+                actualAmount += pair.Key * pair.Value;
+            }
+                       
+            Assert.Equal(expectedAmount, actualAmount);
+
+            
+        }
+
+
+
+
+*********************************************************************************************************************************************
+
+        [Fact]
+        public void CreateProduct_Test()
+        {
+          
+            Toy toy = new Toy(VendingMachine.NextProductId(), "Doll", 49, 3);
+            Food food = new Food(VendingMachine.NextProductId(), "Popcorn", 32, "Snacks");
+            Drink drink = new Drink(VendingMachine.NextProductId(), "Seven up", 19, "Soda");
+
+            Assert.Equal(1, toy.Id);
+            Assert.Equal("Doll", toy.Name);
+            Assert.Equal(49, toy.Price);
+            Assert.Equal(3, toy.RecommendedAge);
+
+            Assert.Equal(2, food.Id);
+            Assert.Equal("Popcorn", food.Name);
+            Assert.Equal(32, food.Price);
+            Assert.Equal("Snacks", food.TypeOfFood);
+
+            Assert.Equal(3, drink.Id);
+            Assert.Equal("Seven up", drink.Name);
+            Assert.Equal(19, drink.Price);
+            Assert.Equal("Soda", drink.TypeOfDrink);
+        }
+
+        [Fact]
+        public void Use_Test()
+        {
+            Toy toy = new Toy(VendingMachine.NextProductId(), "Doll", 49, 3);
+            Food food = new Food(VendingMachine.NextProductId(), "Popcorn", 32, "Snacks");
+            Drink drink = new Drink(VendingMachine.NextProductId(), "Seven up", 19, "Soda");
+
+            Assert.Equal($"Here's your {drink.Name}, enjoy your drink!", drink.Use());
+            Assert.Equal($"Here's your {food.Name}, enjoy your meal!", food.Use());
+            Assert.Equal($"Here's your {toy.Name}, have fun with it!", toy.Use());
+        }
+
+        [Fact]
+        public void Examine_Test()
+        {
+            VendingMachine.Reset();
+            Toy toy = new Toy(VendingMachine.NextProductId(), "Car", 49, 3);
+            Food food = new Food(VendingMachine.NextProductId(), "Chips", 32, "Snacks");
+            Drink drink = new Drink(VendingMachine.NextProductId(), "Fanta", 19, "Soda");
+
+          
+            Assert.Equal($"\n--- TOY ---\nId: 1 \nName: Car\nPrice: 49\nRecommended age: 3\n", toy.Examine());
+            Assert.Equal($"\n--- FOOD ---\nId: 2 \nName: Chips\nPrice: 32\nType of food: Snacks\n", food.Examine());
+            Assert.Equal($"\n--- DRINK ---\nId: 3 \nName: Fanta\nPrice: 19\nType of drink: Soda\n", drink.Examine());                    
+        }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine_Assignment_Lexicon
 {
-    abstract class Product
+    public abstract class Product
     {
         public abstract void Examine();
         public abstract void Use();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine_Assignment_Lexicon
 {
-    internal class CocaCola : Product
+    public class CocaCola : Product
     {
         protected string description = "It appears to be an aluminum can of some sort of carbonated beverage.";
         protected int price = 10;

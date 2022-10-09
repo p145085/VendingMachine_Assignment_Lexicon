@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VendingMachine_Assignment_Lexicon
 {
-    internal class Banana : Product
+    public class Banana : Product
     {
         protected string description = "It appears to be a yellow-coloured pistol.";
         protected int price = 2;

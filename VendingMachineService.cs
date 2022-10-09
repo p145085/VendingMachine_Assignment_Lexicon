@@ -14,7 +14,7 @@ namespace VendingMachine_Assignment_Lexicon
         private static List<Banana> BananasInSelection = new List<Banana>();
         private List<CocaCola> CocaColasInSelection = new List<CocaCola>();
         private List<FrozenPanPizza> FrozenPanPizzasInSelection = new List<FrozenPanPizza>();
-        private int moneyPool;
+        public int moneyPool;
 
         public void Purchase() {
             bool End = false;
